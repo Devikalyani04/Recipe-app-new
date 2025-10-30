@@ -25,11 +25,11 @@ function Search(){
 }
 
 const FormStyle=styled.form`
- margin:5rem 10rem;
+ margin:2rem 10rem;
 
  
  div{
- width:100%;
+ width:1000px;
 position:relative;
  }
 
@@ -37,7 +37,7 @@ position:relative;
  input{
  border:none;
  background:linear-gradient(35deg,#494949,#313131);
- font-size:1.5rem;
+ font-size:1rem;
  color:white;
  padding:1rem 3rem;
  border:none;

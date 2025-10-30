@@ -3,8 +3,10 @@ import Home from './Home'
 import Cuisine from "./Cuisine";
 import Searched from "./Searched";
 import Recipe from "./Recipe";
+import DishType from "./DishType";
 import {Route,Routes,useLocation} from "react-router-dom";
 import{AnimatePresence} from "framer-motion";
+import GroceryListPage from "./GroceryListPage"; 
 
 function Pages(){
    const location=useLocation();
@@ -18,6 +20,10 @@ function Pages(){
       <Route path="/cuisine/:type" element={< Cuisine/>}/>
       <Route path="/searched/:search" element={<Searched/>}/>
       <Route path="/recipe/:name" element={<Recipe />}/>
+     
+
+        <Route path="/type/:typeName" element={<DishType />} />
+        <Route path="/grocery-list" element={<GroceryListPage />} />
     </Routes>
     </AnimatePresence>
 

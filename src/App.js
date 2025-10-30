@@ -3,41 +3,76 @@ import Category from "./components/Category";
 import {BrowserRouter} from "react-router-dom";
 import Search from './components/Search';
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import {Link,useLocation} from "react-router-dom";
 import{GiKnifeFork} from "react-icons/gi";
+import { useEffect, useState } from "react";
+import { auth } from "./firebase";  
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import LoginPage from "./LoginPage";
+import Container from "./components/Container";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import IntroSection from "./components/IntroSection";
+import { GroceryListProvider } from './context/GroceryListContext';
+
 
 function App() {
-  return (
+  
+  const [user, setUser] = useState(null);
+   const location = useLocation();
+
+useEffect(() => {
+  const unsub = onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+  return () => unsub();
+}, []);
+
+
+return (
+  
     <div className="App">
-      <BrowserRouter>
-      <Nav>
-        <GiKnifeFork/>
-        <Logo to={"/"}>Foodie-Hub</Logo>
-      </Nav>
-      <Search/>
-      <Category />
-      <Pages />
-    </BrowserRouter>
+      
+        {/*<Nav isLogin={!user}>
+          <GiKnifeFork />
+          <Logo to={"/"}>Foodie-Hub</Logo>
+          {user && (
+            <>
+             
+              <LogoutButton onClick={() => signOut(auth)}>Logout</LogoutButton>
+            </>
+          )}
+        </Nav>*/}
+
+        {/*<Navbar user={user} onLogout={() => signOut(auth)} />*/}
+
+        {user && <Navbar user={user} onLogout={() => signOut(auth)} />}
+
+        {!user ? (
+          
+           <LoginPage />
+          
+        ) : (
+          <>
+          <Container>
+              {location.pathname === "/" && (
+            <>
+              <Hero />
+              <IntroSection />
+            </>
+          )}
+            
+            <Pages />
+            </Container>
+          </>
+        )}
+    
     </div>
+   
   );
 }
 
-const Logo=styled(Link)`
-text-decoration:none;
-font-size:1.5rem;
-font-weight:400;
-font-family:'Lobster Two',cursive;
-`;
-const Nav=styled.div`
-padding:4rem 0rem;
-display:flex;
-justify-content:flex-start;
-align-items:center;
 
-svg{
-font-size:2rem;
-}
-`;
 
 
 export default App;
